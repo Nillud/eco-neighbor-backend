@@ -1,0 +1,35 @@
+model User {
+    id String @id @default(cuid())
+
+    role     Role   @default(USER)
+    email    String @unique
+    password String
+
+    name      String
+    avatarUrl String? @map("avatar_url")
+    rating    Int     @default(0)
+
+    isEmailVerified                 Boolean   @default(false) @map("is_email_verified")
+    emailVerificationToken          String?   @map("email_verification_token")
+    emailVerificationTokenExpiresAt DateTime? @map("email_verification_token_expires_at")
+
+    resetPasswordToken          String?   @map("reset_password_token")
+    resetPasswordTokenExpiresAt DateTime? @map("reset_password_token_expires_at")
+
+    mapPoints MapPoint[] @relation("UserPoints")
+
+    ads           Ad[]
+    events        Event[]
+    registrations EventParticipant[]
+    achievements  UserAchievement[]
+
+    createdAt DateTime  @default(now()) @map("created_at")
+    updatedAt DateTime  @updatedAt @map("updated_at")
+    
+    messages  Message[]
+}
+
+enum Role {
+    USER
+    ADMIN
+}

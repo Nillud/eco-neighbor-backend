@@ -1,0 +1,20 @@
+model Waste {
+    id String @id @default(cuid())
+
+    name String
+    slug String @unique
+
+    wasteMapPoints WasteMapPoint[]
+}
+
+model WasteMapPoint {
+    id String @id @default(cuid())
+
+    wasteId    String @map("waste_id")
+    mapPointId String @map("map_point_id")
+
+    waste    Waste    @relation(fields: [wasteId], references: [id])
+    mapPoint MapPoint @relation(fields: [mapPointId], references: [id])
+
+    @@unique([wasteId, mapPointId])
+}

@@ -1,0 +1,29 @@
+model Ad {
+    id String @id @default(cuid())
+
+    title       String
+    description String
+    phone       String?
+    imageUrl    String? @map("image_url")
+
+    type   AdType @default(GIVEAWAY)
+    status Status @default(ACTIVE)
+
+    authorId String @map("author_id")
+    author   User   @relation(fields: [authorId], references: [id])
+
+    createdAt DateTime  @default(now()) @map("created_at")
+    updatedAt DateTime  @updatedAt @map("updated_at")
+    
+    messages  Message[]
+}
+
+enum AdType {
+    GIVEAWAY
+    RECYCLE
+}
+
+enum Status {
+    ACTIVE
+    CLOSED
+}

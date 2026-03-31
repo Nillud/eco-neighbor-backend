@@ -1,0 +1,15 @@
+model MapPoint {
+    id String @id @default(cuid())
+
+    title       String
+    address     String
+    latitude    Float
+    longitude   Float
+    description String?
+    isVerified  Boolean @default(false) @map("is_verified")
+
+    authorId    String? @map("author_id")
+    author      User?   @relation("UserPoints", fields: [authorId], references: [id])
+
+    wasteMapPoints WasteMapPoint[]
+}

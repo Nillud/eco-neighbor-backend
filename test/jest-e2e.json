@@ -1,0 +1,23 @@
+{
+	"moduleFileExtensions": ["js", "json", "ts", "tsx", "jsx"],
+	"rootDir": ".",
+	"testEnvironment": "node",
+	"testRegex": ".e2e-spec.ts$",
+	"transform": {
+		"^.+\\.(t|j)sx?$": [
+			"ts-jest",
+			{
+				"tsconfig": "<rootDir>/../tsconfig.json"
+			}
+		]
+	},
+	"moduleNameMapper": {
+		"^src/(.*)$": "<rootDir>/../src/$1",
+		"^prisma/(.*)$": "<rootDir>/../prisma/$1",
+		"^(\\.\\.?\\/.+)\\.js$": "$1",
+    "^uuid$": "<rootDir>/../node_modules/uuid/dist/index.js"
+	},
+  "transformIgnorePatterns": [
+    "/node_modules/(?!(uuid|@react-email|resend)/)"
+  ]
+}

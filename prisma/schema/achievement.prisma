@@ -1,0 +1,37 @@
+model Achievement {
+    id String @id @default(cuid())
+
+    slug        String @unique
+    title       String @unique
+    description String
+    iconUrl     String @map("icon_url")
+
+    category         String
+    unit             Unit
+    requirementCount Float  @map("requirement_count")
+    points           Int
+
+    userAchievements UserAchievement[]
+}
+
+model UserAchievement {
+    id String @id @default(cuid())
+
+    userId        String
+    achievementId String @map("achievement_id")
+
+    currentValue Int     @default(0) @map("current_value")
+    isUnlocked   Boolean @default(false) @map("is_unlocked")
+
+    user        User        @relation(fields: [userId], references: [id])
+    achievement Achievement @relation(fields: [achievementId], references: [id])
+
+    earnedAt DateTime? @default(now()) @map("earned_at")
+
+    @@unique([userId, achievementId])
+}
+
+enum Unit {
+    THING // шт
+    KG // кг
+}
