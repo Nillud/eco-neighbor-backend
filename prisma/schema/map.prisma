@@ -6,10 +6,17 @@ model MapPoint {
     latitude    Float
     longitude   Float
     description String?
-    isVerified  Boolean @default(false) @map("is_verified")
+    
+    isVerified  Boolean   @default(false) @map("is_verified")
+    type        PointType @default(CONTAINER)
 
-    authorId    String? @map("author_id")
-    author      User?   @relation("UserPoints", fields: [authorId], references: [id])
+    authorId String? @map("author_id")
+    author   User?   @relation("UserPoints", fields: [authorId], references: [id])
 
     wasteMapPoints WasteMapPoint[]
+}
+
+enum PointType {
+    CONTAINER
+    POINT
 }

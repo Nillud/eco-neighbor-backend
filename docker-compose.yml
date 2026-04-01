@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      # Берем данные из твоего .env (postgres / 123456)
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: eco-neighbor
+    ports:
+      - "5432:5432" # Пробрасываем порт, чтобы ты мог зайти в БД через DBeaver/TablePlus
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    restart: always
+    ports:
+      - "4200:4200"
+    environment:
+      # ВАЖНО: вместо localhost пишем имя сервиса 'db'
+      DATABASE_URL: "postgresql://postgres:123456@db:5432/eco-neighbor?schema=public"
+      JWT_SECRET: "Yue1no6lBNYm4jhWGPi9rWgTxveX8R0KAR5T2CVD3DP"
+      CLIENT_URL: "http://localhost:3000" # URL фронтенда (обычно остается localhost)
+      MODE: "development"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

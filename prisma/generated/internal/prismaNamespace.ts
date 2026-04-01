@@ -1270,6 +1270,7 @@ export const MapPointScalarFieldEnum = {
   longitude: 'longitude',
   description: 'description',
   isVerified: 'isVerified',
+  type: 'type',
   authorId: 'authorId'
 } as const
 
@@ -1486,6 +1487,20 @@ export type EnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'EventStatus[]'
  */
 export type ListEnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PointType'
+ */
+export type EnumPointTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PointType'>
+    
+
+
+/**
+ * Reference to a field of type 'PointType[]'
+ */
+export type ListEnumPointTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PointType[]'>
     
 
 

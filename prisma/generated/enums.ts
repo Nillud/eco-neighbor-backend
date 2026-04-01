@@ -52,6 +52,14 @@ export const EventCategory = {
 export type EventCategory = (typeof EventCategory)[keyof typeof EventCategory]
 
 
+export const PointType = {
+  CONTAINER: 'CONTAINER',
+  POINT: 'POINT'
+} as const
+
+export type PointType = (typeof PointType)[keyof typeof PointType]
+
+
 export const Role = {
   USER: 'USER',
   ADMIN: 'ADMIN'

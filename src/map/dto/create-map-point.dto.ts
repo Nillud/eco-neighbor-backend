@@ -1,3 +1,5 @@
+import { PointType } from "prisma/generated/enums";
+
 export class CreateMapPointDto {
   title: string;
   address: string;
@@ -5,6 +7,7 @@ export class CreateMapPointDto {
   longitude: number;
   description?: string;
   isVerified?: boolean;
+  type?: PointType
   
   wasteIds: string[]; 
 }

@@ -314,6 +314,23 @@ export type EnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumEventStatusFilter<$PrismaModel>
 }
 
+export type EnumPointTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointType | Prisma.EnumPointTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPointTypeFilter<$PrismaModel> | $Enums.PointType
+}
+
+export type EnumPointTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointType | Prisma.EnumPointTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPointTypeWithAggregatesFilter<$PrismaModel> | $Enums.PointType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPointTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPointTypeFilter<$PrismaModel>
+}
+
 export type EnumRoleFilter<$PrismaModel = never> = {
   equals?: $Enums.Role | Prisma.EnumRoleFieldRefInput<$PrismaModel>
   in?: $Enums.Role[] | Prisma.ListEnumRoleFieldRefInput<$PrismaModel>
@@ -631,6 +648,23 @@ export type NestedEnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEventStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEventStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumPointTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointType | Prisma.EnumPointTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPointTypeFilter<$PrismaModel> | $Enums.PointType
+}
+
+export type NestedEnumPointTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointType | Prisma.EnumPointTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PointType[] | Prisma.ListEnumPointTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPointTypeWithAggregatesFilter<$PrismaModel> | $Enums.PointType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPointTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPointTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumRoleFilter<$PrismaModel = never> = {

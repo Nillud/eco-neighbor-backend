@@ -44,6 +44,7 @@ export type MapPointMinAggregateOutputType = {
   longitude: number | null
   description: string | null
   isVerified: boolean | null
+  type: $Enums.PointType | null
   authorId: string | null
 }
 
@@ -55,6 +56,7 @@ export type MapPointMaxAggregateOutputType = {
   longitude: number | null
   description: string | null
   isVerified: boolean | null
+  type: $Enums.PointType | null
   authorId: string | null
 }
 
@@ -66,6 +68,7 @@ export type MapPointCountAggregateOutputType = {
   longitude: number
   description: number
   isVerified: number
+  type: number
   authorId: number
   _all: number
 }
@@ -89,6 +92,7 @@ export type MapPointMinAggregateInputType = {
   longitude?: true
   description?: true
   isVerified?: true
+  type?: true
   authorId?: true
 }
 
@@ -100,6 +104,7 @@ export type MapPointMaxAggregateInputType = {
   longitude?: true
   description?: true
   isVerified?: true
+  type?: true
   authorId?: true
 }
 
@@ -111,6 +116,7 @@ export type MapPointCountAggregateInputType = {
   longitude?: true
   description?: true
   isVerified?: true
+  type?: true
   authorId?: true
   _all?: true
 }
@@ -209,6 +215,7 @@ export type MapPointGroupByOutputType = {
   longitude: number
   description: string | null
   isVerified: boolean
+  type: $Enums.PointType
   authorId: string | null
   _count: MapPointCountAggregateOutputType | null
   _avg: MapPointAvgAggregateOutputType | null
@@ -243,6 +250,7 @@ export type MapPointWhereInput = {
   longitude?: Prisma.FloatFilter<"MapPoint"> | number
   description?: Prisma.StringNullableFilter<"MapPoint"> | string | null
   isVerified?: Prisma.BoolFilter<"MapPoint"> | boolean
+  type?: Prisma.EnumPointTypeFilter<"MapPoint"> | $Enums.PointType
   authorId?: Prisma.StringNullableFilter<"MapPoint"> | string | null
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   wasteMapPoints?: Prisma.WasteMapPointListRelationFilter
@@ -256,6 +264,7 @@ export type MapPointOrderByWithRelationInput = {
   longitude?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   authorId?: Prisma.SortOrderInput | Prisma.SortOrder
   author?: Prisma.UserOrderByWithRelationInput
   wasteMapPoints?: Prisma.WasteMapPointOrderByRelationAggregateInput
@@ -272,6 +281,7 @@ export type MapPointWhereUniqueInput = Prisma.AtLeast<{
   longitude?: Prisma.FloatFilter<"MapPoint"> | number
   description?: Prisma.StringNullableFilter<"MapPoint"> | string | null
   isVerified?: Prisma.BoolFilter<"MapPoint"> | boolean
+  type?: Prisma.EnumPointTypeFilter<"MapPoint"> | $Enums.PointType
   authorId?: Prisma.StringNullableFilter<"MapPoint"> | string | null
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   wasteMapPoints?: Prisma.WasteMapPointListRelationFilter
@@ -285,6 +295,7 @@ export type MapPointOrderByWithAggregationInput = {
   longitude?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   authorId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.MapPointCountOrderByAggregateInput
   _avg?: Prisma.MapPointAvgOrderByAggregateInput
@@ -304,6 +315,7 @@ export type MapPointScalarWhereWithAggregatesInput = {
   longitude?: Prisma.FloatWithAggregatesFilter<"MapPoint"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"MapPoint"> | string | null
   isVerified?: Prisma.BoolWithAggregatesFilter<"MapPoint"> | boolean
+  type?: Prisma.EnumPointTypeWithAggregatesFilter<"MapPoint"> | $Enums.PointType
   authorId?: Prisma.StringNullableWithAggregatesFilter<"MapPoint"> | string | null
 }
 
@@ -315,6 +327,7 @@ export type MapPointCreateInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
   author?: Prisma.UserCreateNestedOneWithoutMapPointsInput
   wasteMapPoints?: Prisma.WasteMapPointCreateNestedManyWithoutMapPointInput
 }
@@ -327,6 +340,7 @@ export type MapPointUncheckedCreateInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
   authorId?: string | null
   wasteMapPoints?: Prisma.WasteMapPointUncheckedCreateNestedManyWithoutMapPointInput
 }
@@ -339,6 +353,7 @@ export type MapPointUpdateInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
   author?: Prisma.UserUpdateOneWithoutMapPointsNestedInput
   wasteMapPoints?: Prisma.WasteMapPointUpdateManyWithoutMapPointNestedInput
 }
@@ -351,6 +366,7 @@ export type MapPointUncheckedUpdateInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   wasteMapPoints?: Prisma.WasteMapPointUncheckedUpdateManyWithoutMapPointNestedInput
 }
@@ -363,6 +379,7 @@ export type MapPointCreateManyInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
   authorId?: string | null
 }
 
@@ -374,6 +391,7 @@ export type MapPointUpdateManyMutationInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
 }
 
 export type MapPointUncheckedUpdateManyInput = {
@@ -384,6 +402,7 @@ export type MapPointUncheckedUpdateManyInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -395,6 +414,7 @@ export type MapPointCountOrderByAggregateInput = {
   longitude?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
 }
 
@@ -411,6 +431,7 @@ export type MapPointMaxOrderByAggregateInput = {
   longitude?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
 }
 
@@ -422,6 +443,7 @@ export type MapPointMinOrderByAggregateInput = {
   longitude?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
 }
 
@@ -443,6 +465,10 @@ export type MapPointOrderByRelationAggregateInput = {
 export type MapPointScalarRelationFilter = {
   is?: Prisma.MapPointWhereInput
   isNot?: Prisma.MapPointWhereInput
+}
+
+export type EnumPointTypeFieldUpdateOperationsInput = {
+  set?: $Enums.PointType
 }
 
 export type MapPointCreateNestedManyWithoutAuthorInput = {
@@ -509,6 +535,7 @@ export type MapPointCreateWithoutAuthorInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
   wasteMapPoints?: Prisma.WasteMapPointCreateNestedManyWithoutMapPointInput
 }
 
@@ -520,6 +547,7 @@ export type MapPointUncheckedCreateWithoutAuthorInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
   wasteMapPoints?: Prisma.WasteMapPointUncheckedCreateNestedManyWithoutMapPointInput
 }
 
@@ -560,6 +588,7 @@ export type MapPointScalarWhereInput = {
   longitude?: Prisma.FloatFilter<"MapPoint"> | number
   description?: Prisma.StringNullableFilter<"MapPoint"> | string | null
   isVerified?: Prisma.BoolFilter<"MapPoint"> | boolean
+  type?: Prisma.EnumPointTypeFilter<"MapPoint"> | $Enums.PointType
   authorId?: Prisma.StringNullableFilter<"MapPoint"> | string | null
 }
 
@@ -571,6 +600,7 @@ export type MapPointCreateWithoutWasteMapPointsInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
   author?: Prisma.UserCreateNestedOneWithoutMapPointsInput
 }
 
@@ -582,6 +612,7 @@ export type MapPointUncheckedCreateWithoutWasteMapPointsInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
   authorId?: string | null
 }
 
@@ -609,6 +640,7 @@ export type MapPointUpdateWithoutWasteMapPointsInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
   author?: Prisma.UserUpdateOneWithoutMapPointsNestedInput
 }
 
@@ -620,6 +652,7 @@ export type MapPointUncheckedUpdateWithoutWasteMapPointsInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -631,6 +664,7 @@ export type MapPointCreateManyAuthorInput = {
   longitude: number
   description?: string | null
   isVerified?: boolean
+  type?: $Enums.PointType
 }
 
 export type MapPointUpdateWithoutAuthorInput = {
@@ -641,6 +675,7 @@ export type MapPointUpdateWithoutAuthorInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
   wasteMapPoints?: Prisma.WasteMapPointUpdateManyWithoutMapPointNestedInput
 }
 
@@ -652,6 +687,7 @@ export type MapPointUncheckedUpdateWithoutAuthorInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
   wasteMapPoints?: Prisma.WasteMapPointUncheckedUpdateManyWithoutMapPointNestedInput
 }
 
@@ -663,6 +699,7 @@ export type MapPointUncheckedUpdateManyWithoutAuthorInput = {
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  type?: Prisma.EnumPointTypeFieldUpdateOperationsInput | $Enums.PointType
 }
 
 
@@ -704,6 +741,7 @@ export type MapPointSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   longitude?: boolean
   description?: boolean
   isVerified?: boolean
+  type?: boolean
   authorId?: boolean
   author?: boolean | Prisma.MapPoint$authorArgs<ExtArgs>
   wasteMapPoints?: boolean | Prisma.MapPoint$wasteMapPointsArgs<ExtArgs>
@@ -718,6 +756,7 @@ export type MapPointSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   longitude?: boolean
   description?: boolean
   isVerified?: boolean
+  type?: boolean
   authorId?: boolean
   author?: boolean | Prisma.MapPoint$authorArgs<ExtArgs>
 }, ExtArgs["result"]["mapPoint"]>
@@ -730,6 +769,7 @@ export type MapPointSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   longitude?: boolean
   description?: boolean
   isVerified?: boolean
+  type?: boolean
   authorId?: boolean
   author?: boolean | Prisma.MapPoint$authorArgs<ExtArgs>
 }, ExtArgs["result"]["mapPoint"]>
@@ -742,10 +782,11 @@ export type MapPointSelectScalar = {
   longitude?: boolean
   description?: boolean
   isVerified?: boolean
+  type?: boolean
   authorId?: boolean
 }
 
-export type MapPointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "address" | "latitude" | "longitude" | "description" | "isVerified" | "authorId", ExtArgs["result"]["mapPoint"]>
+export type MapPointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "address" | "latitude" | "longitude" | "description" | "isVerified" | "type" | "authorId", ExtArgs["result"]["mapPoint"]>
 export type MapPointInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.MapPoint$authorArgs<ExtArgs>
   wasteMapPoints?: boolean | Prisma.MapPoint$wasteMapPointsArgs<ExtArgs>
@@ -772,6 +813,7 @@ export type $MapPointPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     longitude: number
     description: string | null
     isVerified: boolean
+    type: $Enums.PointType
     authorId: string | null
   }, ExtArgs["result"]["mapPoint"]>
   composites: {}
@@ -1205,6 +1247,7 @@ export interface MapPointFieldRefs {
   readonly longitude: Prisma.FieldRef<"MapPoint", 'Float'>
   readonly description: Prisma.FieldRef<"MapPoint", 'String'>
   readonly isVerified: Prisma.FieldRef<"MapPoint", 'Boolean'>
+  readonly type: Prisma.FieldRef<"MapPoint", 'PointType'>
   readonly authorId: Prisma.FieldRef<"MapPoint", 'String'>
 }
     

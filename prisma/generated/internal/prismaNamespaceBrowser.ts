@@ -157,6 +157,7 @@ export const MapPointScalarFieldEnum = {
   longitude: 'longitude',
   description: 'description',
   isVerified: 'isVerified',
+  type: 'type',
   authorId: 'authorId'
 } as const
 
