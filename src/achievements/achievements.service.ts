@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateAchievementDto } from './dto/create-achievement.dto'
@@ -35,18 +38,13 @@ export class AchievementsService {
 		return this.prisma.achievement.delete({ where: { id } })
 	}
 
-	async updateProgress(userId: string, slug: string, amount: number) {
-		const achievement = await this.prisma.achievement.findUnique({
+	async updateProgress(userId: string, slug: string, amount: number, tx?: any) {
+		const prisma = tx || this.prisma
+
+		const achievement = await prisma.achievement.findUnique({
 			where: { slug }
 		})
 		if (!achievement) return
-
-		// 1. Инкрементируем базовый рейтинг пользователя за само действие (1 ед = 1 балл)
-		// Используем поле rating, которое у тебя уже есть в модели User
-		await this.prisma.user.update({
-			where: { id: userId },
-			data: { rating: { increment: Math.floor(amount) } } // Используем Floor, если передали Float
-		})
 
 		const userAch = await this.prisma.userAchievement.upsert({
 			where: {
@@ -56,7 +54,7 @@ export class AchievementsService {
 			create: { userId, achievementId: achievement.id, currentValue: amount }
 		})
 
-		// 2. Проверка на закрытие ачивки (бонусные баллы)
+		// Проверка на закрытие ачивки (бонусные баллы)
 		if (
 			!userAch.isUnlocked &&
 			userAch.currentValue >= achievement.requirementCount

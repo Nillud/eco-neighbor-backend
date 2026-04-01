@@ -126,18 +126,19 @@ export class UsersService {
 		const finalAmount = Math.min(calculatedSum, 100)
 
 		return this.prisma.$transaction(async tx => {
-			// 2. Обновляем прогресс ачивок для каждого типа мусора
+			// Обновляем прогресс ачивок для каждого типа мусора
 			for (const [slug, value] of Object.entries(dto.values)) {
 				if (value > 0) {
 					await this.achievementsService.updateProgress(
 						userId,
 						slug,
-						Math.min(value, 100)
+						Math.min(value, 100),
+						tx
 					)
 				}
 			}
 
-			// 3. Начисляем общий рейтинг пользователю
+			// Начисляем общий рейтинг пользователю
 			return tx.user.update({
 				where: { id: userId },
 				data: {
