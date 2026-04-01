@@ -29,9 +29,41 @@ export class MapService {
 		})
 	}
 
-	async findAll() {
+	async getAll(wasteSlugs?: string[]) {
 		return this.prisma.mapPoint.findMany({
-			include: { wasteMapPoints: { include: { waste: true } } }
+			where: wasteSlugs?.length
+				? {
+						wasteMapPoints: {
+							some: {
+								waste: {
+									slug: {
+										in: wasteSlugs
+									}
+								}
+							}
+						}
+					}
+				: {},
+			include: {
+				wasteMapPoints: {
+					select: {
+						waste: {
+							select: {
+								name: true,
+								slug: true
+							}
+						}
+					}
+				},
+				author: {
+					select: {
+						name: true
+					}
+				}
+			},
+			orderBy: {
+				id: 'desc'
+			}
 		})
 	}
 

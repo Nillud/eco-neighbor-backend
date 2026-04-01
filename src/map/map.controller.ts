@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Delete, Param } from '@nestjs/common'
+import { Controller, Get, Post, Body, Delete, Param, Query, ParseArrayPipe } from '@nestjs/common'
 import { MapService } from './map.service'
 import { CreateMapPointDto } from './dto/create-map-point.dto'
 import { Auth } from 'src/auth/decorators/auth.decorator'
@@ -9,8 +9,14 @@ export class MapController {
 	constructor(private readonly mapService: MapService) {}
 
 	@Get()
-	findAll() {
-		return this.mapService.findAll()
+	findAll(
+		@Query(
+			'types',
+			new ParseArrayPipe({ items: String, separator: ',', optional: true })
+		)
+		types?: string[]
+	) {
+		return this.mapService.getAll(types)
 	}
 
 	@Post()

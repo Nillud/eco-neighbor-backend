@@ -194,6 +194,8 @@ export class AuthService {
 			httpOnly: true,
 			domain: 'localhost',
 			expires: expiresIn,
+			// sameSite: 'lax',
+			// secure: false
 			sameSite: isDev(this.configService) ? 'none' : 'strict',
 			secure: true
 		})

@@ -3,7 +3,9 @@ import {
 	Get,
 	Param,
 	Delete,
-	NotFoundException
+	NotFoundException,
+	Post,
+	Body
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { Auth } from 'src/auth/decorators/auth.decorator'
@@ -21,12 +23,18 @@ export class UsersController {
 
 	/**
 	 * ЛИЧНЫЙ ПРОФИЛЬ
-	 * GET /api/users/profile
+	 * GET /api/users/full-profile
 	 * Доступен любому авторизованному пользователю
 	 */
 	@Get('profile')
 	@Auth()
 	async getProfile(@CurrentUser('id') userId: string) {
+		return this.usersService.getProfile(userId)
+	}
+
+	@Get('full-profile')
+	@Auth()
+	async getFullProfile(@CurrentUser('id') userId: string) {
 		return this.usersService.getFullProfile(userId)
 	}
 
@@ -61,5 +69,11 @@ export class UsersController {
 	@Auth(Role.ADMIN)
 	async delete(@Param('id') id: string) {
 		return this.usersService.delete(id)
+	}
+
+	@Post('collect-waste')
+	@Auth()
+	async collectWaste(@CurrentUser('id') userId: string, @Body() dto: { amount: number, values: Record<string, number> }) {
+		return await this.usersService.addPoints(userId, dto)
 	}
 }

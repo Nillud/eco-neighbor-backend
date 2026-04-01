@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { ECO_LEVELS, getLevelByScore } from './utils/eco-levels.util'
+import { AchievementsService } from 'src/achievements/achievements.service'
 
 @Injectable()
 export class UsersService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly achievementsService: AchievementsService
+	) {}
 
 	getAll() {
 		return this.prisma.user.findMany()
@@ -49,6 +53,23 @@ export class UsersService {
 		})
 	}
 
+	async getProfile(userId: string) {
+		const user = await this.prisma.user.findUnique({
+			where: { id: userId },
+			select: {
+				id: true,
+				email: true,
+				name: true,
+				avatarUrl: true,
+				rating: true,
+				role: true
+			}
+		})
+
+		if (!user) throw new NotFoundException('Пользователь не найден')
+		return user
+	}
+
 	async getFullProfile(userId: string) {
 		const user = await this.prisma.user.findUnique({
 			where: { id: userId },
@@ -57,7 +78,7 @@ export class UsersService {
 				email: true,
 				name: true,
 				avatarUrl: true,
-				rating: true, // Наш ecoScore
+				rating: true,
 				role: true,
 				createdAt: true,
 				achievements: {
@@ -95,5 +116,34 @@ export class UsersService {
 
 	async delete(id: string) {
 		return await this.prisma.user.delete({ where: { id } })
+	}
+
+	async addPoints(
+		userId: string,
+		dto: { amount: number; values: Record<string, number> }
+	) {
+		const calculatedSum = Object.values(dto.values).reduce((a, b) => a + b, 0)
+		const finalAmount = Math.min(calculatedSum, 100)
+
+		return this.prisma.$transaction(async tx => {
+			// 2. Обновляем прогресс ачивок для каждого типа мусора
+			for (const [slug, value] of Object.entries(dto.values)) {
+				if (value > 0) {
+					await this.achievementsService.updateProgress(
+						userId,
+						slug,
+						Math.min(value, 100)
+					)
+				}
+			}
+
+			// 3. Начисляем общий рейтинг пользователю
+			return tx.user.update({
+				where: { id: userId },
+				data: {
+					rating: { increment: finalAmount }
+				}
+			})
+		})
 	}
 }
