@@ -72,7 +72,7 @@ export class AuthController {
 		this.authService.toggleAccessTokenCookie(res, accessToken)
 		this.authService.toggleRefreshTokenCookie(res, refreshToken)
 
-		return res.redirect('http://localhost:3000/profile')
+		return res.redirect('http://localhost:3000')
 	}
 
 	@Post('new-tokens')
