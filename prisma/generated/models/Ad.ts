@@ -27,6 +27,7 @@ export type AggregateAd = {
 export type AdMinAggregateOutputType = {
   id: string | null
   title: string | null
+  slug: string | null
   description: string | null
   phone: string | null
   imageUrl: string | null
@@ -40,6 +41,7 @@ export type AdMinAggregateOutputType = {
 export type AdMaxAggregateOutputType = {
   id: string | null
   title: string | null
+  slug: string | null
   description: string | null
   phone: string | null
   imageUrl: string | null
@@ -53,6 +55,7 @@ export type AdMaxAggregateOutputType = {
 export type AdCountAggregateOutputType = {
   id: number
   title: number
+  slug: number
   description: number
   phone: number
   imageUrl: number
@@ -68,6 +71,7 @@ export type AdCountAggregateOutputType = {
 export type AdMinAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   description?: true
   phone?: true
   imageUrl?: true
@@ -81,6 +85,7 @@ export type AdMinAggregateInputType = {
 export type AdMaxAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   description?: true
   phone?: true
   imageUrl?: true
@@ -94,6 +99,7 @@ export type AdMaxAggregateInputType = {
 export type AdCountAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   description?: true
   phone?: true
   imageUrl?: true
@@ -180,6 +186,7 @@ export type AdGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type AdGroupByOutputType = {
   id: string
   title: string
+  slug: string
   description: string
   phone: string | null
   imageUrl: string | null
@@ -214,6 +221,7 @@ export type AdWhereInput = {
   NOT?: Prisma.AdWhereInput | Prisma.AdWhereInput[]
   id?: Prisma.StringFilter<"Ad"> | string
   title?: Prisma.StringFilter<"Ad"> | string
+  slug?: Prisma.StringFilter<"Ad"> | string
   description?: Prisma.StringFilter<"Ad"> | string
   phone?: Prisma.StringNullableFilter<"Ad"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Ad"> | string | null
@@ -229,6 +237,7 @@ export type AdWhereInput = {
 export type AdOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -243,6 +252,7 @@ export type AdOrderByWithRelationInput = {
 
 export type AdWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.AdWhereInput | Prisma.AdWhereInput[]
   OR?: Prisma.AdWhereInput[]
   NOT?: Prisma.AdWhereInput | Prisma.AdWhereInput[]
@@ -257,11 +267,12 @@ export type AdWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   messages?: Prisma.MessageListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type AdOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -281,6 +292,7 @@ export type AdScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AdScalarWhereWithAggregatesInput | Prisma.AdScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   title?: Prisma.StringWithAggregatesFilter<"Ad"> | string
+  slug?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   description?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"Ad"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Ad"> | string | null
@@ -294,6 +306,7 @@ export type AdScalarWhereWithAggregatesInput = {
 export type AdCreateInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -308,6 +321,7 @@ export type AdCreateInput = {
 export type AdUncheckedCreateInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -322,6 +336,7 @@ export type AdUncheckedCreateInput = {
 export type AdUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -336,6 +351,7 @@ export type AdUpdateInput = {
 export type AdUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -350,6 +366,7 @@ export type AdUncheckedUpdateInput = {
 export type AdCreateManyInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -363,6 +380,7 @@ export type AdCreateManyInput = {
 export type AdUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -375,6 +393,7 @@ export type AdUpdateManyMutationInput = {
 export type AdUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -388,6 +407,7 @@ export type AdUncheckedUpdateManyInput = {
 export type AdCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
@@ -401,6 +421,7 @@ export type AdCountOrderByAggregateInput = {
 export type AdMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
@@ -414,6 +435,7 @@ export type AdMaxOrderByAggregateInput = {
 export type AdMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
@@ -516,6 +538,7 @@ export type AdUncheckedUpdateManyWithoutAuthorNestedInput = {
 export type AdCreateWithoutMessagesInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -529,6 +552,7 @@ export type AdCreateWithoutMessagesInput = {
 export type AdUncheckedCreateWithoutMessagesInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -558,6 +582,7 @@ export type AdUpdateToOneWithWhereWithoutMessagesInput = {
 export type AdUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -571,6 +596,7 @@ export type AdUpdateWithoutMessagesInput = {
 export type AdUncheckedUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -584,6 +610,7 @@ export type AdUncheckedUpdateWithoutMessagesInput = {
 export type AdCreateWithoutAuthorInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -597,6 +624,7 @@ export type AdCreateWithoutAuthorInput = {
 export type AdUncheckedCreateWithoutAuthorInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -639,6 +667,7 @@ export type AdScalarWhereInput = {
   NOT?: Prisma.AdScalarWhereInput | Prisma.AdScalarWhereInput[]
   id?: Prisma.StringFilter<"Ad"> | string
   title?: Prisma.StringFilter<"Ad"> | string
+  slug?: Prisma.StringFilter<"Ad"> | string
   description?: Prisma.StringFilter<"Ad"> | string
   phone?: Prisma.StringNullableFilter<"Ad"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Ad"> | string | null
@@ -652,6 +681,7 @@ export type AdScalarWhereInput = {
 export type AdCreateManyAuthorInput = {
   id?: string
   title: string
+  slug: string
   description: string
   phone?: string | null
   imageUrl?: string | null
@@ -664,6 +694,7 @@ export type AdCreateManyAuthorInput = {
 export type AdUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -677,6 +708,7 @@ export type AdUpdateWithoutAuthorInput = {
 export type AdUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -690,6 +722,7 @@ export type AdUncheckedUpdateWithoutAuthorInput = {
 export type AdUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -733,6 +766,7 @@ export type AdCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Ext
 export type AdSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   phone?: boolean
   imageUrl?: boolean
@@ -749,6 +783,7 @@ export type AdSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type AdSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   phone?: boolean
   imageUrl?: boolean
@@ -763,6 +798,7 @@ export type AdSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions
 export type AdSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   phone?: boolean
   imageUrl?: boolean
@@ -777,6 +813,7 @@ export type AdSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions
 export type AdSelectScalar = {
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   phone?: boolean
   imageUrl?: boolean
@@ -787,7 +824,7 @@ export type AdSelectScalar = {
   updatedAt?: boolean
 }
 
-export type AdOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "phone" | "imageUrl" | "type" | "status" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["ad"]>
+export type AdOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "phone" | "imageUrl" | "type" | "status" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["ad"]>
 export type AdInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.Ad$messagesArgs<ExtArgs>
@@ -809,6 +846,7 @@ export type $AdPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
+    slug: string
     description: string
     phone: string | null
     imageUrl: string | null
@@ -1244,6 +1282,7 @@ export interface Prisma__AdClient<T, Null = never, ExtArgs extends runtime.Types
 export interface AdFieldRefs {
   readonly id: Prisma.FieldRef<"Ad", 'String'>
   readonly title: Prisma.FieldRef<"Ad", 'String'>
+  readonly slug: Prisma.FieldRef<"Ad", 'String'>
   readonly description: Prisma.FieldRef<"Ad", 'String'>
   readonly phone: Prisma.FieldRef<"Ad", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Ad", 'String'>

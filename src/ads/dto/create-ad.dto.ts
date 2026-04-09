@@ -9,6 +9,12 @@ export class CreateAdDto {
 	title: string
 
 	@ApiProperty({
+		example: 'otdam-stariy-kaktys-36sfs',
+		description: 'Slug объявления'
+	})
+	slug: string
+
+	@ApiProperty({
 		example: 'Здоровый, колючий, самовывоз',
 		description: 'Описание'
 	})

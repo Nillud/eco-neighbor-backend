@@ -23,10 +23,11 @@ model User {
     registrations EventParticipant[]
     achievements  UserAchievement[]
 
-    createdAt DateTime  @default(now()) @map("created_at")
-    updatedAt DateTime  @updatedAt @map("updated_at")
-    
-    messages  Message[]
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    sentMessages     Message[] @relation("SentMessages")
+    receivedMessages Message[] @relation("ReceivedMessages")
 }
 
 enum Role {

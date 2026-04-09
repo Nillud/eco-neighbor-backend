@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "AdType" ADD VALUE 'NEED_HELP';

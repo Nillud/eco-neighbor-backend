@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// src/notifications/notifications.gateway.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	WebSocketGateway,
 	WebSocketServer,
@@ -13,7 +12,8 @@ import { Server, Socket } from 'socket.io'
 
 @WebSocketGateway({
 	cors: {
-		origin: '*' // В продакшене замени на конкретный URL фронтенда
+		origin: 'http://localhost:3000', // Укажи точный адрес фронта
+		credentials: true
 	},
 	namespace: 'notifications'
 })
@@ -23,26 +23,20 @@ export class NotificationsGateway
 	@WebSocketServer()
 	server: Server
 
-	// Хранилище активных подключений: Map<userId, socketId>
 	private activeConnections = new Map<string, string>()
 
-	/**
-	 * Обработка подключения
-	 */
 	async handleConnection(client: Socket) {
 		const userId = client.handshake.query.userId as string
+		// Браузер передаст куки в handshake.headers.cookie, если включен withCredentials
+		const cookies = client.handshake.headers.cookie
 
 		if (userId) {
 			this.activeConnections.set(userId, client.id)
-			// Присоединяем сокет к комнате пользователя для точечной рассылки
 			await client.join(`user_${userId}`)
 			console.log(`[Socket] User connected: ${userId}, socket: ${client.id}`)
 		}
 	}
 
-	/**
-	 * Обработка отключения
-	 */
 	handleDisconnect(client: Socket) {
 		const userId = [...this.activeConnections.entries()].find(
 			([_, id]) => id === client.id
@@ -54,51 +48,26 @@ export class NotificationsGateway
 		}
 	}
 
-	/**
-	 * Отправка обновления по ачивкам конкретному пользователю
-	 */
-	sendAchievementUpdate(userId: string, data: unknown) {
+	sendAchievementUpdate(userId: string, data: any) {
 		this.server.to(`user_${userId}`).emit('achievement_update', data)
 	}
 
-	/**
-	 * Пример подписки: вход в комнату обсуждения (чата) объявления
-	 */
 	@SubscribeMessage('join_room')
 	async handleJoinRoom(
 		@ConnectedSocket() client: Socket,
-		@MessageBody() roomId: string
+		@MessageBody() data: { roomId: string }
 	) {
-		await client.join(roomId)
-		console.log(`[Socket] Client ${client.id} joined room ${roomId}`)
-		return { event: 'joined', room: roomId }
+		await client.join(data.roomId)
+		console.log(`[Socket] Client joined room: ${data.roomId}`)
+		return { status: 'joined', room: data.roomId }
 	}
 
-	/**
-	 * Отправка системного уведомления (всем)
-	 */
-	sendBroadcastNotification(message: string) {
-		this.server.emit('broadcast', { message, date: new Date() })
-	}
-
-	@SubscribeMessage('join_chat')
-	async handleJoinChat(
+	@SubscribeMessage('leave_room')
+	async handleLeaveRoom(
 		@ConnectedSocket() client: Socket,
-		@MessageBody() data: { adId?: string; eventId?: string }
+		@MessageBody() data: { roomId: string }
 	) {
-		const roomId = data.adId ? `ad_${data.adId}` : `event_${data.eventId}`
-		await client.join(roomId)
-		console.log(`[Socket] Client ${client.id} joined chat room: ${roomId}`)
-		return { status: 'joined', room: roomId }
-	}
-
-	@SubscribeMessage('leave_chat')
-	async handleLeaveChat(
-		@ConnectedSocket() client: Socket,
-		@MessageBody() data: { adId?: string; eventId?: string }
-	) {
-		const roomId = data.adId ? `ad_${data.adId}` : `event_${data.eventId}`
-		await client.leave(roomId)
-		console.log(`[Socket] Client ${client.id} left chat room: ${roomId}`)
+		await client.leave(data.roomId)
+		console.log(`[Socket] Client left room: ${data.roomId}`)
 	}
 }

@@ -2,6 +2,7 @@ import {
 	Controller,
 	HttpCode,
 	Post,
+	Query,
 	UploadedFile,
 	UseInterceptors
 } from '@nestjs/common'
@@ -14,15 +15,18 @@ export class MediaUploadController {
 	constructor(private readonly mediaService: MediaUploadService) {}
 
 	@HttpCode(200)
-	@Post('avatar')
+	@Post()
 	@Auth()
 	@UseInterceptors(
 		FileInterceptor('file', {
 			limits: { fileSize: 5 * 1024 * 1024 }
 		})
 	)
-	async uploadAvatar(@UploadedFile() file: Express.Multer.File) {
-		const uploaded = await this.mediaService.saveAvatar(file)
-        return uploaded
+	async uploadAvatar(
+		@UploadedFile() file: Express.Multer.File,
+		@Query('folder') folder?: string
+	) {
+		const uploaded = await this.mediaService.saveAvatar(file, folder)
+		return uploaded
 	}
 }

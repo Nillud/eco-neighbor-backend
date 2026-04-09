@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
 	Injectable,
 	NotFoundException,
 	ForbiddenException,
 	BadRequestException
 } from '@nestjs/common'
+import { slugify } from 'transliteration'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { AchievementsService } from 'src/achievements/achievements.service'
 import { CreateAdDto } from './dto/create-ad.dto'
@@ -17,6 +20,10 @@ export class AdsService {
 	) {}
 
 	async create(userId: string, dto: CreateAdDto) {
+		const baseSlug = slugify(dto.title)
+		const uniqueId = Math.random().toString(36).substring(2, 7)
+		const slug = `${baseSlug}-${uniqueId}`
+
 		await this.prisma.user.update({
 			where: { id: userId },
 			data: { rating: { increment: 15 } }
@@ -25,9 +32,30 @@ export class AdsService {
 		return this.prisma.ad.create({
 			data: {
 				...dto,
+				slug,
 				authorId: userId
+			} as any
+		})
+	}
+
+	async getBySlug(slug: string) {
+		console.log(slug)
+		const ad = await this.prisma.ad.findUnique({
+			where: { slug } as any,
+			include: {
+				author: {
+					select: {
+						id: true,
+						name: true,
+						avatarUrl: true,
+						rating: true
+					}
+				}
 			}
 		})
+
+		if (!ad) throw new NotFoundException('Объявление не найдено')
+		return ad
 	}
 
 	async getAll(type?: AdType) {

@@ -1222,6 +1222,7 @@ export type UserAchievementScalarFieldEnum = (typeof UserAchievementScalarFieldE
 export const AdScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  slug: 'slug',
   description: 'description',
   phone: 'phone',
   imageUrl: 'imageUrl',
@@ -1282,6 +1283,7 @@ export const MessageScalarFieldEnum = {
   text: 'text',
   createdAt: 'createdAt',
   senderId: 'senderId',
+  receiverId: 'receiverId',
   adId: 'adId',
   eventId: 'eventId'
 } as const

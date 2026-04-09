@@ -19,7 +19,8 @@ export type Unit = (typeof Unit)[keyof typeof Unit]
 
 export const AdType = {
   GIVEAWAY: 'GIVEAWAY',
-  RECYCLE: 'RECYCLE'
+  RECYCLE: 'RECYCLE',
+  NEED_HELP: 'NEED_HELP'
 } as const
 
 export type AdType = (typeof AdType)[keyof typeof AdType]

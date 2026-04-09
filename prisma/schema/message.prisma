@@ -1,18 +1,20 @@
 model Message {
     id        String   @id @default(cuid())
     text      String
-    createdAt DateTime @default(now())
+    createdAt DateTime @default(now()) @map("created_at")
 
-    senderId String
-    sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+    senderId String @map("sender_id")
+    sender   User   @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
 
-    adId String?
+    receiverId String? @map("receiver_id")
+    receiver   User?   @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+    adId String? @map("ad_id")
     ad   Ad?     @relation(fields: [adId], references: [id], onDelete: Cascade)
 
-    eventId String?
+    eventId String? @map("event_id")
     event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
     @@index([adId])
     @@index([eventId])
 }
-

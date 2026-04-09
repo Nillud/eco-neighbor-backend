@@ -1,7 +1,9 @@
 model Ad {
     id String @id @default(cuid())
 
-    title       String
+    title String
+    slug  String @unique
+
     description String
     phone       String?
     imageUrl    String? @map("image_url")
@@ -12,15 +14,16 @@ model Ad {
     authorId String @map("author_id")
     author   User   @relation(fields: [authorId], references: [id])
 
-    createdAt DateTime  @default(now()) @map("created_at")
-    updatedAt DateTime  @updatedAt @map("updated_at")
-    
-    messages  Message[]
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    messages Message[]
 }
 
 enum AdType {
     GIVEAWAY
     RECYCLE
+    NEED_HELP
 }
 
 enum Status {

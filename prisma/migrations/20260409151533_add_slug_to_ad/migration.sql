@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Ad" ALTER COLUMN "slug" DROP NOT NULL;
