@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { EventCategory } from 'prisma/generated/enums'
 
 export const REWARDS: Record<

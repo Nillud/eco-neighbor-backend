@@ -39,6 +39,16 @@ export class AdsController {
 		return this.adsService.getBySlug(slug)
 	}
 
+	@Patch(':id')
+	@Auth()
+	update(
+		@CurrentUser('id') userId: string,
+		@Param('id') id: string,
+		@Body() dto: Partial<CreateAdDto>
+	) {
+		return this.adsService.update(userId, id, dto)
+	}
+
 	@Patch(':id/close')
 	@Auth()
 	close(@CurrentUser('id') userId: string, @Param('id') id: string) {

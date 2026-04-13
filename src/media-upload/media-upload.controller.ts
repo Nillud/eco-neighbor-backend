@@ -22,11 +22,11 @@ export class MediaUploadController {
 			limits: { fileSize: 5 * 1024 * 1024 }
 		})
 	)
-	async uploadAvatar(
+	async uploadImage(
 		@UploadedFile() file: Express.Multer.File,
 		@Query('folder') folder?: string
 	) {
-		const uploaded = await this.mediaService.saveAvatar(file, folder)
+		const uploaded = await this.mediaService.uploadImage(file, folder)
 		return uploaded
 	}
 }

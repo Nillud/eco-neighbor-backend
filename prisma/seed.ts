@@ -2,9 +2,10 @@ import 'dotenv/config'
 import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '../prisma/generated/client'
-import { createWasteData } from './seed/create-waste'
-import { createAchievementsData } from './seed/create-achievements'
-import { createPointsData } from './seed/create-points'
+// import { createWasteData } from './seed/create-waste'
+// import { createAchievementsData } from './seed/create-achievements'
+// import { createPointsData } from './seed/create-points'
+import { fixAllSlugs } from './seed/fix-slug'
 // import { generateUsers } from './seed/generate-users'
 
 const connectionString = `${process.env.DATABASE_URL}`
@@ -15,10 +16,11 @@ const prisma = new PrismaClient({ adapter })
 async function main() {
 	console.log('🌱 Start seeding waste types...')
 
-	await createWasteData(prisma)
-	await createAchievementsData(prisma)
-	await createPointsData(prisma)
+	// await createWasteData(prisma)
+	// await createAchievementsData(prisma)
+	// await createPointsData(prisma)
 	// await generateUsers(prisma)
+	await fixAllSlugs(prisma)
 
 	console.log('✅ Seeding finished.')
 }

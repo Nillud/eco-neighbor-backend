@@ -2,11 +2,14 @@ model Event {
     id String @id @default(cuid())
 
     title       String
+    slug        String        @unique
     description String
     category    EventCategory @default(CLEANUP)
 
-    phone     String?
-    date      DateTime
+    phone    String?
+    imageUrl String?  @map("image_url")
+    date     DateTime
+
     location  String
     latitude  Float
     longitude Float
@@ -15,11 +18,15 @@ model Event {
 
     status EventStatus @default(UPCOMING)
 
-    creatorId    String             @map("creator_id")
-    creator      User               @relation(fields: [creatorId], references: [id])
+    creatorId String @map("creator_id")
+    creator   User   @relation(fields: [creatorId], references: [id])
+
     participants EventParticipant[]
 
     messages Message[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model EventParticipant {

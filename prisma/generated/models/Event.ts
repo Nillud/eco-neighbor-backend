@@ -41,9 +41,11 @@ export type EventSumAggregateOutputType = {
 export type EventMinAggregateOutputType = {
   id: string | null
   title: string | null
+  slug: string | null
   description: string | null
   category: $Enums.EventCategory | null
   phone: string | null
+  imageUrl: string | null
   date: Date | null
   location: string | null
   latitude: number | null
@@ -51,14 +53,18 @@ export type EventMinAggregateOutputType = {
   maxParticipants: number | null
   status: $Enums.EventStatus | null
   creatorId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type EventMaxAggregateOutputType = {
   id: string | null
   title: string | null
+  slug: string | null
   description: string | null
   category: $Enums.EventCategory | null
   phone: string | null
+  imageUrl: string | null
   date: Date | null
   location: string | null
   latitude: number | null
@@ -66,14 +72,18 @@ export type EventMaxAggregateOutputType = {
   maxParticipants: number | null
   status: $Enums.EventStatus | null
   creatorId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type EventCountAggregateOutputType = {
   id: number
   title: number
+  slug: number
   description: number
   category: number
   phone: number
+  imageUrl: number
   date: number
   location: number
   latitude: number
@@ -81,6 +91,8 @@ export type EventCountAggregateOutputType = {
   maxParticipants: number
   status: number
   creatorId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -100,9 +112,11 @@ export type EventSumAggregateInputType = {
 export type EventMinAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   description?: true
   category?: true
   phone?: true
+  imageUrl?: true
   date?: true
   location?: true
   latitude?: true
@@ -110,14 +124,18 @@ export type EventMinAggregateInputType = {
   maxParticipants?: true
   status?: true
   creatorId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type EventMaxAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   description?: true
   category?: true
   phone?: true
+  imageUrl?: true
   date?: true
   location?: true
   latitude?: true
@@ -125,14 +143,18 @@ export type EventMaxAggregateInputType = {
   maxParticipants?: true
   status?: true
   creatorId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type EventCountAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   description?: true
   category?: true
   phone?: true
+  imageUrl?: true
   date?: true
   location?: true
   latitude?: true
@@ -140,6 +162,8 @@ export type EventCountAggregateInputType = {
   maxParticipants?: true
   status?: true
   creatorId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -232,9 +256,11 @@ export type EventGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type EventGroupByOutputType = {
   id: string
   title: string
+  slug: string
   description: string
   category: $Enums.EventCategory
   phone: string | null
+  imageUrl: string | null
   date: Date
   location: string
   latitude: number
@@ -242,6 +268,8 @@ export type EventGroupByOutputType = {
   maxParticipants: number | null
   status: $Enums.EventStatus
   creatorId: string
+  createdAt: Date
+  updatedAt: Date
   _count: EventCountAggregateOutputType | null
   _avg: EventAvgAggregateOutputType | null
   _sum: EventSumAggregateOutputType | null
@@ -270,9 +298,11 @@ export type EventWhereInput = {
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   id?: Prisma.StringFilter<"Event"> | string
   title?: Prisma.StringFilter<"Event"> | string
+  slug?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringFilter<"Event"> | string
   category?: Prisma.EnumEventCategoryFilter<"Event"> | $Enums.EventCategory
   phone?: Prisma.StringNullableFilter<"Event"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   location?: Prisma.StringFilter<"Event"> | string
   latitude?: Prisma.FloatFilter<"Event"> | number
@@ -280,6 +310,8 @@ export type EventWhereInput = {
   maxParticipants?: Prisma.IntNullableFilter<"Event"> | number | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   creatorId?: Prisma.StringFilter<"Event"> | string
+  createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   participants?: Prisma.EventParticipantListRelationFilter
   messages?: Prisma.MessageListRelationFilter
@@ -288,9 +320,11 @@ export type EventWhereInput = {
 export type EventOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
@@ -298,6 +332,8 @@ export type EventOrderByWithRelationInput = {
   maxParticipants?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   creator?: Prisma.UserOrderByWithRelationInput
   participants?: Prisma.EventParticipantOrderByRelationAggregateInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
@@ -305,6 +341,7 @@ export type EventOrderByWithRelationInput = {
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   OR?: Prisma.EventWhereInput[]
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
@@ -312,6 +349,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Event"> | string
   category?: Prisma.EnumEventCategoryFilter<"Event"> | $Enums.EventCategory
   phone?: Prisma.StringNullableFilter<"Event"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   location?: Prisma.StringFilter<"Event"> | string
   latitude?: Prisma.FloatFilter<"Event"> | number
@@ -319,17 +357,21 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   maxParticipants?: Prisma.IntNullableFilter<"Event"> | number | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   creatorId?: Prisma.StringFilter<"Event"> | string
+  createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   participants?: Prisma.EventParticipantListRelationFilter
   messages?: Prisma.MessageListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type EventOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
@@ -337,6 +379,8 @@ export type EventOrderByWithAggregationInput = {
   maxParticipants?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.EventCountOrderByAggregateInput
   _avg?: Prisma.EventAvgOrderByAggregateInput
   _max?: Prisma.EventMaxOrderByAggregateInput
@@ -350,9 +394,11 @@ export type EventScalarWhereWithAggregatesInput = {
   NOT?: Prisma.EventScalarWhereWithAggregatesInput | Prisma.EventScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Event"> | string
   title?: Prisma.StringWithAggregatesFilter<"Event"> | string
+  slug?: Prisma.StringWithAggregatesFilter<"Event"> | string
   description?: Prisma.StringWithAggregatesFilter<"Event"> | string
   category?: Prisma.EnumEventCategoryWithAggregatesFilter<"Event"> | $Enums.EventCategory
   phone?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   date?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   location?: Prisma.StringWithAggregatesFilter<"Event"> | string
   latitude?: Prisma.FloatWithAggregatesFilter<"Event"> | number
@@ -360,20 +406,26 @@ export type EventScalarWhereWithAggregatesInput = {
   maxParticipants?: Prisma.IntNullableWithAggregatesFilter<"Event"> | number | null
   status?: Prisma.EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
   creatorId?: Prisma.StringWithAggregatesFilter<"Event"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
 }
 
 export type EventCreateInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
   longitude: number
   maxParticipants?: number | null
   status?: $Enums.EventStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutEventsInput
   participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
   messages?: Prisma.MessageCreateNestedManyWithoutEventInput
@@ -382,9 +434,11 @@ export type EventCreateInput = {
 export type EventUncheckedCreateInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
@@ -392,6 +446,8 @@ export type EventUncheckedCreateInput = {
   maxParticipants?: number | null
   status?: $Enums.EventStatus
   creatorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutEventInput
 }
@@ -399,15 +455,19 @@ export type EventUncheckedCreateInput = {
 export type EventUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
   participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
   messages?: Prisma.MessageUpdateManyWithoutEventNestedInput
@@ -416,9 +476,11 @@ export type EventUpdateInput = {
 export type EventUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -426,6 +488,8 @@ export type EventUncheckedUpdateInput = {
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutEventNestedInput
 }
@@ -433,9 +497,11 @@ export type EventUncheckedUpdateInput = {
 export type EventCreateManyInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
@@ -443,28 +509,36 @@ export type EventCreateManyInput = {
   maxParticipants?: number | null
   status?: $Enums.EventStatus
   creatorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EventUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EventUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -472,14 +546,18 @@ export type EventUncheckedUpdateManyInput = {
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EventCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
@@ -487,6 +565,8 @@ export type EventCountOrderByAggregateInput = {
   maxParticipants?: Prisma.SortOrder
   status?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EventAvgOrderByAggregateInput = {
@@ -498,9 +578,11 @@ export type EventAvgOrderByAggregateInput = {
 export type EventMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
@@ -508,14 +590,18 @@ export type EventMaxOrderByAggregateInput = {
   maxParticipants?: Prisma.SortOrder
   status?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EventMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   date?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
@@ -523,6 +609,8 @@ export type EventMinOrderByAggregateInput = {
   maxParticipants?: Prisma.SortOrder
   status?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EventSumOrderByAggregateInput = {
@@ -642,15 +730,19 @@ export type EventUncheckedUpdateManyWithoutCreatorNestedInput = {
 export type EventCreateWithoutParticipantsInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
   longitude: number
   maxParticipants?: number | null
   status?: $Enums.EventStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutEventsInput
   messages?: Prisma.MessageCreateNestedManyWithoutEventInput
 }
@@ -658,9 +750,11 @@ export type EventCreateWithoutParticipantsInput = {
 export type EventUncheckedCreateWithoutParticipantsInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
@@ -668,6 +762,8 @@ export type EventUncheckedCreateWithoutParticipantsInput = {
   maxParticipants?: number | null
   status?: $Enums.EventStatus
   creatorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutEventInput
 }
 
@@ -690,15 +786,19 @@ export type EventUpdateToOneWithWhereWithoutParticipantsInput = {
 export type EventUpdateWithoutParticipantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
   messages?: Prisma.MessageUpdateManyWithoutEventNestedInput
 }
@@ -706,9 +806,11 @@ export type EventUpdateWithoutParticipantsInput = {
 export type EventUncheckedUpdateWithoutParticipantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -716,21 +818,27 @@ export type EventUncheckedUpdateWithoutParticipantsInput = {
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.MessageUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutMessagesInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
   longitude: number
   maxParticipants?: number | null
   status?: $Enums.EventStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutEventsInput
   participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
 }
@@ -738,9 +846,11 @@ export type EventCreateWithoutMessagesInput = {
 export type EventUncheckedCreateWithoutMessagesInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
@@ -748,6 +858,8 @@ export type EventUncheckedCreateWithoutMessagesInput = {
   maxParticipants?: number | null
   status?: $Enums.EventStatus
   creatorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
 }
 
@@ -770,15 +882,19 @@ export type EventUpdateToOneWithWhereWithoutMessagesInput = {
 export type EventUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
   participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
 }
@@ -786,9 +902,11 @@ export type EventUpdateWithoutMessagesInput = {
 export type EventUncheckedUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -796,21 +914,27 @@ export type EventUncheckedUpdateWithoutMessagesInput = {
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutCreatorInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
   longitude: number
   maxParticipants?: number | null
   status?: $Enums.EventStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
   participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
   messages?: Prisma.MessageCreateNestedManyWithoutEventInput
 }
@@ -818,15 +942,19 @@ export type EventCreateWithoutCreatorInput = {
 export type EventUncheckedCreateWithoutCreatorInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
   longitude: number
   maxParticipants?: number | null
   status?: $Enums.EventStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
   participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutEventInput
 }
@@ -863,9 +991,11 @@ export type EventScalarWhereInput = {
   NOT?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
   id?: Prisma.StringFilter<"Event"> | string
   title?: Prisma.StringFilter<"Event"> | string
+  slug?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringFilter<"Event"> | string
   category?: Prisma.EnumEventCategoryFilter<"Event"> | $Enums.EventCategory
   phone?: Prisma.StringNullableFilter<"Event"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   location?: Prisma.StringFilter<"Event"> | string
   latitude?: Prisma.FloatFilter<"Event"> | number
@@ -873,34 +1003,44 @@ export type EventScalarWhereInput = {
   maxParticipants?: Prisma.IntNullableFilter<"Event"> | number | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   creatorId?: Prisma.StringFilter<"Event"> | string
+  createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
 }
 
 export type EventCreateManyCreatorInput = {
   id?: string
   title: string
+  slug: string
   description: string
   category?: $Enums.EventCategory
   phone?: string | null
+  imageUrl?: string | null
   date: Date | string
   location: string
   latitude: number
   longitude: number
   maxParticipants?: number | null
   status?: $Enums.EventStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EventUpdateWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
   messages?: Prisma.MessageUpdateManyWithoutEventNestedInput
 }
@@ -908,15 +1048,19 @@ export type EventUpdateWithoutCreatorInput = {
 export type EventUncheckedUpdateWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutEventNestedInput
 }
@@ -924,15 +1068,19 @@ export type EventUncheckedUpdateWithoutCreatorInput = {
 export type EventUncheckedUpdateManyWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumEventCategoryFieldUpdateOperationsInput | $Enums.EventCategory
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -978,9 +1126,11 @@ export type EventCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.
 export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   category?: boolean
   phone?: boolean
+  imageUrl?: boolean
   date?: boolean
   location?: boolean
   latitude?: boolean
@@ -988,6 +1138,8 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   maxParticipants?: boolean
   status?: boolean
   creatorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   participants?: boolean | Prisma.Event$participantsArgs<ExtArgs>
   messages?: boolean | Prisma.Event$messagesArgs<ExtArgs>
@@ -997,9 +1149,11 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   category?: boolean
   phone?: boolean
+  imageUrl?: boolean
   date?: boolean
   location?: boolean
   latitude?: boolean
@@ -1007,15 +1161,19 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   maxParticipants?: boolean
   status?: boolean
   creatorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   category?: boolean
   phone?: boolean
+  imageUrl?: boolean
   date?: boolean
   location?: boolean
   latitude?: boolean
@@ -1023,15 +1181,19 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   maxParticipants?: boolean
   status?: boolean
   creatorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectScalar = {
   id?: boolean
   title?: boolean
+  slug?: boolean
   description?: boolean
   category?: boolean
   phone?: boolean
+  imageUrl?: boolean
   date?: boolean
   location?: boolean
   latitude?: boolean
@@ -1039,9 +1201,11 @@ export type EventSelectScalar = {
   maxParticipants?: boolean
   status?: boolean
   creatorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "phone" | "date" | "location" | "latitude" | "longitude" | "maxParticipants" | "status" | "creatorId", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "category" | "phone" | "imageUrl" | "date" | "location" | "latitude" | "longitude" | "maxParticipants" | "status" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   participants?: boolean | Prisma.Event$participantsArgs<ExtArgs>
@@ -1065,9 +1229,11 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
+    slug: string
     description: string
     category: $Enums.EventCategory
     phone: string | null
+    imageUrl: string | null
     date: Date
     location: string
     latitude: number
@@ -1075,6 +1241,8 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     maxParticipants: number | null
     status: $Enums.EventStatus
     creatorId: string
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["event"]>
   composites: {}
 }
@@ -1503,9 +1671,11 @@ export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface EventFieldRefs {
   readonly id: Prisma.FieldRef<"Event", 'String'>
   readonly title: Prisma.FieldRef<"Event", 'String'>
+  readonly slug: Prisma.FieldRef<"Event", 'String'>
   readonly description: Prisma.FieldRef<"Event", 'String'>
   readonly category: Prisma.FieldRef<"Event", 'EventCategory'>
   readonly phone: Prisma.FieldRef<"Event", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Event", 'String'>
   readonly date: Prisma.FieldRef<"Event", 'DateTime'>
   readonly location: Prisma.FieldRef<"Event", 'String'>
   readonly latitude: Prisma.FieldRef<"Event", 'Float'>
@@ -1513,6 +1683,8 @@ export interface EventFieldRefs {
   readonly maxParticipants: Prisma.FieldRef<"Event", 'Int'>
   readonly status: Prisma.FieldRef<"Event", 'EventStatus'>
   readonly creatorId: Prisma.FieldRef<"Event", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Event", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Event", 'DateTime'>
 }
     
 

@@ -1239,16 +1239,20 @@ export type AdScalarFieldEnum = (typeof AdScalarFieldEnum)[keyof typeof AdScalar
 export const EventScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  slug: 'slug',
   description: 'description',
   category: 'category',
   phone: 'phone',
+  imageUrl: 'imageUrl',
   date: 'date',
   location: 'location',
   latitude: 'latitude',
   longitude: 'longitude',
   maxParticipants: 'maxParticipants',
   status: 'status',
-  creatorId: 'creatorId'
+  creatorId: 'creatorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]

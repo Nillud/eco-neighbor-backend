@@ -24,11 +24,6 @@ export class AdsService {
 		const uniqueId = Math.random().toString(36).substring(2, 7)
 		const slug = `${baseSlug}-${uniqueId}`
 
-		await this.prisma.user.update({
-			where: { id: userId },
-			data: { rating: { increment: 15 } }
-		})
-
 		return this.prisma.ad.create({
 			data: {
 				...dto,
@@ -69,6 +64,27 @@ export class AdsService {
 		})
 	}
 
+	async update(userId: string, adId: string, dto: Partial<CreateAdDto>) {
+		const ad = await this.prisma.ad.findUnique({ where: { id: adId } })
+
+		if (!ad) throw new NotFoundException('Объявление не найдено')
+		if (ad.authorId !== userId) throw new ForbiddenException('Вы не автор')
+
+		const updateData: Partial<CreateAdDto> = { ...dto }
+
+		// Если заголовок изменился, обновляем slug
+		if (dto.title && dto.title !== ad.title) {
+			const baseSlug = slugify(dto.title)
+			const uniqueId = ad.id.slice(-5)
+			updateData.slug = `${baseSlug}-${uniqueId}`
+		}
+
+		return this.prisma.ad.update({
+			where: { id: adId },
+			data: updateData
+		})
+	}
+
 	/**
 	 * ЗАКРЫТИЕ ОБЪЯВЛЕНИЯ
 	 * В этот момент начисляются баллы и проверяются ачивки
@@ -92,6 +108,11 @@ export class AdsService {
 				await this.achievementsService.updateProgress(userId, 'giveaway', 1)
 			}
 
+			await this.prisma.user.update({
+				where: { id: userId },
+				data: { rating: { increment: 15 } }
+			})
+
 			return updatedAd
 		})
 	}
@@ -99,6 +120,11 @@ export class AdsService {
 	async remove(userId: string, adId: string) {
 		const ad = await this.prisma.ad.findUnique({ where: { id: adId } })
 		if (ad?.authorId !== userId) throw new ForbiddenException()
+
+		await this.prisma.user.update({
+			where: { id: userId },
+			data: { rating: { decrement: 15 } }
+		})
 
 		return this.prisma.ad.delete({ where: { id: adId } })
 	}

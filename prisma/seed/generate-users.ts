@@ -171,7 +171,7 @@ export async function generateUsers(prisma: PrismaClient) {
 		await prisma.ad.create({
 			data: {
 				title: adData.title,
-                slug: generatedSlug,
+				slug: generatedSlug,
 				description: adData.desc,
 				type: adData.type,
 				status: Status.ACTIVE,
@@ -206,14 +206,19 @@ export async function generateUsers(prisma: PrismaClient) {
 	]
 
 	for (let i = 0; i < eventsData.length; i++) {
+		const baseSlug = slugify(eventsData[i].title)
+		const uniqueId = Math.random().toString(36).substring(2, 7)
+		const generatedSlug = `${baseSlug}-${uniqueId}`
+
 		const event = await prisma.event.create({
 			data: {
 				title: eventsData[i].title,
+				slug: generatedSlug, // ДОБАВЛЕНО
 				description:
 					'Приходите всей семьей, будет интересно и полезно для природы!',
 				category: eventsData[i].cat,
 				location: eventsData[i].loc,
-				date: new Date(Date.now() + (i + 1) * 86400000), // Завтра, послезавтра и т.д.
+				date: new Date(Date.now() + (i + 1) * 86400000),
 				latitude: 55.75 + Math.random() * 0.1,
 				longitude: 37.61 + Math.random() * 0.1,
 				status: EventStatus.UPCOMING,

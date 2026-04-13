@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 export class MediaUploadService {
 	constructor() {}
 
-	async saveAvatar(file: Express.Multer.File, folder: string = 'default'): Promise<IUploadResponse> {
+	async uploadImage(file: Express.Multer.File, folder: string = 'default'): Promise<IUploadResponse> {
 		const uploadFolder = `${path}/uploads/${folder}`
 		await ensureDir(uploadFolder)
 
