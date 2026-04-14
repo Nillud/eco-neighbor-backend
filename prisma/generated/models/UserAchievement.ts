@@ -221,7 +221,7 @@ export type UserAchievementWhereInput = {
   id?: Prisma.StringFilter<"UserAchievement"> | string
   userId?: Prisma.StringFilter<"UserAchievement"> | string
   achievementId?: Prisma.StringFilter<"UserAchievement"> | string
-  currentValue?: Prisma.IntFilter<"UserAchievement"> | number
+  currentValue?: Prisma.FloatFilter<"UserAchievement"> | number
   isUnlocked?: Prisma.BoolFilter<"UserAchievement"> | boolean
   earnedAt?: Prisma.DateTimeNullableFilter<"UserAchievement"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -247,7 +247,7 @@ export type UserAchievementWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserAchievementWhereInput | Prisma.UserAchievementWhereInput[]
   userId?: Prisma.StringFilter<"UserAchievement"> | string
   achievementId?: Prisma.StringFilter<"UserAchievement"> | string
-  currentValue?: Prisma.IntFilter<"UserAchievement"> | number
+  currentValue?: Prisma.FloatFilter<"UserAchievement"> | number
   isUnlocked?: Prisma.BoolFilter<"UserAchievement"> | boolean
   earnedAt?: Prisma.DateTimeNullableFilter<"UserAchievement"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -275,7 +275,7 @@ export type UserAchievementScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"UserAchievement"> | string
   userId?: Prisma.StringWithAggregatesFilter<"UserAchievement"> | string
   achievementId?: Prisma.StringWithAggregatesFilter<"UserAchievement"> | string
-  currentValue?: Prisma.IntWithAggregatesFilter<"UserAchievement"> | number
+  currentValue?: Prisma.FloatWithAggregatesFilter<"UserAchievement"> | number
   isUnlocked?: Prisma.BoolWithAggregatesFilter<"UserAchievement"> | boolean
   earnedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAchievement"> | Date | string | null
 }
@@ -300,7 +300,7 @@ export type UserAchievementUncheckedCreateInput = {
 
 export type UserAchievementUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutAchievementsNestedInput
@@ -311,7 +311,7 @@ export type UserAchievementUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   achievementId?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -327,7 +327,7 @@ export type UserAchievementCreateManyInput = {
 
 export type UserAchievementUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -336,7 +336,7 @@ export type UserAchievementUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   achievementId?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -532,7 +532,7 @@ export type UserAchievementScalarWhereInput = {
   id?: Prisma.StringFilter<"UserAchievement"> | string
   userId?: Prisma.StringFilter<"UserAchievement"> | string
   achievementId?: Prisma.StringFilter<"UserAchievement"> | string
-  currentValue?: Prisma.IntFilter<"UserAchievement"> | number
+  currentValue?: Prisma.FloatFilter<"UserAchievement"> | number
   isUnlocked?: Prisma.BoolFilter<"UserAchievement"> | boolean
   earnedAt?: Prisma.DateTimeNullableFilter<"UserAchievement"> | Date | string | null
 }
@@ -589,7 +589,7 @@ export type UserAchievementCreateManyAchievementInput = {
 
 export type UserAchievementUpdateWithoutAchievementInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutAchievementsNestedInput
@@ -598,7 +598,7 @@ export type UserAchievementUpdateWithoutAchievementInput = {
 export type UserAchievementUncheckedUpdateWithoutAchievementInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -606,7 +606,7 @@ export type UserAchievementUncheckedUpdateWithoutAchievementInput = {
 export type UserAchievementUncheckedUpdateManyWithoutAchievementInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -621,7 +621,7 @@ export type UserAchievementCreateManyUserInput = {
 
 export type UserAchievementUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   achievement?: Prisma.AchievementUpdateOneRequiredWithoutUserAchievementsNestedInput
@@ -630,7 +630,7 @@ export type UserAchievementUpdateWithoutUserInput = {
 export type UserAchievementUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   achievementId?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -638,7 +638,7 @@ export type UserAchievementUncheckedUpdateWithoutUserInput = {
 export type UserAchievementUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   achievementId?: Prisma.StringFieldUpdateOperationsInput | string
-  currentValue?: Prisma.IntFieldUpdateOperationsInput | number
+  currentValue?: Prisma.FloatFieldUpdateOperationsInput | number
   isUnlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   earnedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -1142,7 +1142,7 @@ export interface UserAchievementFieldRefs {
   readonly id: Prisma.FieldRef<"UserAchievement", 'String'>
   readonly userId: Prisma.FieldRef<"UserAchievement", 'String'>
   readonly achievementId: Prisma.FieldRef<"UserAchievement", 'String'>
-  readonly currentValue: Prisma.FieldRef<"UserAchievement", 'Int'>
+  readonly currentValue: Prisma.FieldRef<"UserAchievement", 'Float'>
   readonly isUnlocked: Prisma.FieldRef<"UserAchievement", 'Boolean'>
   readonly earnedAt: Prisma.FieldRef<"UserAchievement", 'DateTime'>
 }

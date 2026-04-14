@@ -20,7 +20,7 @@ model UserAchievement {
     userId        String
     achievementId String @map("achievement_id")
 
-    currentValue Int     @default(0) @map("current_value")
+    currentValue Float   @default(0) @map("current_value")
     isUnlocked   Boolean @default(false) @map("is_unlocked")
 
     user        User        @relation(fields: [userId], references: [id])

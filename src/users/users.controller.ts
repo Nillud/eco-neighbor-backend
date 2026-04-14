@@ -5,20 +5,24 @@ import {
 	Delete,
 	NotFoundException,
 	Post,
-	Body
+	Body,
+	HttpCode,
+	Patch
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { Auth } from 'src/auth/decorators/auth.decorator'
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator'
 import { Role } from 'prisma/generated/enums'
+import { ChangePasswordDto } from './dto/change-password.dto'
 
 @Controller('users')
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
 
 	@Get('leaderboard')
-	async getLeaderboard() {
-		return this.usersService.getLeaderboard()
+	@Auth()
+	async getLeaderboard(@CurrentUser('id') userId?: string) {
+		return this.usersService.getLeaderboard(userId)
 	}
 
 	/**
@@ -36,6 +40,18 @@ export class UsersController {
 	@Auth()
 	async getFullProfile(@CurrentUser('id') userId: string) {
 		return this.usersService.getFullProfile(userId)
+	}
+
+	@Get('admin-stats')
+	@Auth('ADMIN')
+	async getAdminStats() {
+		return this.usersService.getAdminStats()
+	}
+
+	@Get('get-activity')
+	@Auth()
+	async getActivity(@CurrentUser('id') userId: string) {
+		return this.usersService.getActivity(userId)
 	}
 
 	/**
@@ -61,6 +77,16 @@ export class UsersController {
 		return user
 	}
 
+	@HttpCode(200)
+	@Patch('profile/change-password')
+	@Auth()
+	async changePassword(
+		@CurrentUser('id') userId: string,
+		@Body() dto: ChangePasswordDto
+	) {
+		return this.usersService.changePassword(userId, dto)
+	}
+
 	/**
 	 * УДАЛЕНИЕ (ADMIN ONLY)
 	 * DELETE /api/users/:id
@@ -73,7 +99,10 @@ export class UsersController {
 
 	@Post('collect-waste')
 	@Auth()
-	async collectWaste(@CurrentUser('id') userId: string, @Body() dto: { amount: number, values: Record<string, number> }) {
+	async collectWaste(
+		@CurrentUser('id') userId: string,
+		@Body() dto: { amount: number; values: Record<string, number> }
+	) {
 		return await this.usersService.addPoints(userId, dto)
 	}
 }
