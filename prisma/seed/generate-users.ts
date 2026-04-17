@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import * as argon2 from 'argon2'
 import {
 	AdType,
