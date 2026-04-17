@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { NotificationsGateway } from 'src/notifications/notifications.gateway'
 
@@ -91,13 +91,41 @@ export class MessagesService {
 			include: {
 				sender: { select: { id: true, name: true, avatarUrl: true } },
 				receiver: { select: { id: true, name: true, avatarUrl: true } },
-				ad: { select: { id: true, title: true } },
-				event: { select: { id: true, title: true } }
+				ad: { select: { id: true, title: true, slug: true } },
+				event: { select: { id: true, title: true, slug: true } }
 			} as any,
 			orderBy: { createdAt: 'desc' }
 		})
 
+		const userEvents = await this.prisma.event.findMany({
+			where: { participants: { some: { userId } } },
+			select: { id: true, title: true, slug: true, imageUrl: true }
+		})
+
 		const chats = new Map()
+
+		userEvents.forEach(event => {
+			const key = `event_${event.id}`
+			chats.set(key, {
+				id: key,
+				lastMessage: 'Сообщений пока нет',
+				date: new Date(),
+				type: 'EVENT',
+				title: event.title,
+				// Чтобы фронт не падал, создаем заглушку или передаем данные ивента
+				partner: {
+					name: event.title,
+					avatarUrl: event.imageUrl || null // Добавь imageUrl в select выше
+				},
+				metadata: {
+					eventId: event.id,
+					eventSlug: event.slug,
+					eventImage: event.imageUrl, // Передаем картинку ивента
+					adId: null,
+					adSlug: null
+				}
+			})
+		})
 
 		messages.forEach((msg: any) => {
 			let key = ''
@@ -116,12 +144,46 @@ export class MessagesService {
 					date: msg.createdAt,
 					type: msg.eventId ? 'EVENT' : 'AD',
 					title: msg.event?.title || msg.ad?.title || 'Чат',
-					partner: msg.senderId === userId ? msg.receiver : msg.sender,
-					metadata: { adId: msg.adId, eventId: msg.eventId }
+					partner: msg.eventId
+						? { name: msg.event?.title, avatarUrl: msg.event?.imageUrl }
+						: msg.senderId === userId
+							? msg.receiver
+							: msg.sender,
+					metadata: {
+						adId: msg.adId,
+						eventId: msg.eventId,
+						adSlug: msg.ad?.slug,
+						eventSlug: msg.event?.slug,
+						eventImage: msg.event?.imageUrl // Важно для картинки
+					}
 				})
 			}
 		})
 
-		return Array.from(chats.values())
+		return Array.from(chats.values()).sort((a, b) => b.date - a.date)
+	}
+
+	async getOrCreateEventChat(userId: string, eventId: string) {
+		// Проверяем, является ли пользователь участником
+		const isParticipant = await this.prisma.eventParticipant.findFirst({
+			where: { eventId, userId }
+		})
+
+		if (!isParticipant)
+			throw new ForbiddenException('Вы не участник этого события')
+
+		// Получаем историю (она может быть пустой)
+		const history = await this.getHistory(userId, { eventId })
+
+		// Возвращаем данные для фронтенда, чтобы он знал, какой заголовок рисовать
+		const event = await this.prisma.event.findUnique({
+			where: { id: eventId },
+			select: { title: true, id: true }
+		})
+
+		return {
+			event,
+			messages: history
+		}
 	}
 }
