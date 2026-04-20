@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateMapPointDto } from './dto/create-map-point.dto'
+import { UserModel } from 'prisma/generated/models'
+import { Role } from 'prisma/generated/enums'
 
 @Injectable()
 export class MapService {
-	constructor(private prisma: PrismaService) {}
+	constructor(private prisma: PrismaService) { }
 
-	async create(dto: CreateMapPointDto, authorId: string) {
+	async create(dto: CreateMapPointDto, author: UserModel) {
 		const { wasteIds, ...pointData } = dto
-
-		return this.prisma.mapPoint.create({
+		const newMapPoint = await this.prisma.mapPoint.create({
 			data: {
 				...pointData,
-				authorId,
+				authorId: author.id,
 				isVerified: false, // Новые точки всегда не подтверждены
 				wasteMapPoints: {
 					create: wasteIds.map(id => ({
@@ -21,6 +22,10 @@ export class MapService {
 				}
 			}
 		})
+
+		if (author.role === Role.ADMIN) await this.verifyPoint(newMapPoint.id)
+
+		return newMapPoint
 	}
 
 	async getById(id: string) {
@@ -87,16 +92,16 @@ export class MapService {
 				isVerified: true,
 				...(wasteSlugs?.length
 					? {
-							wasteMapPoints: {
-								some: {
-									waste: {
-										slug: {
-											in: wasteSlugs
-										}
+						wasteMapPoints: {
+							some: {
+								waste: {
+									slug: {
+										in: wasteSlugs
 									}
 								}
 							}
 						}
+					}
 					: {})
 			},
 			include: {

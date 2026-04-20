@@ -15,6 +15,7 @@ import { CreateMapPointDto } from './dto/create-map-point.dto'
 import { Auth } from 'src/auth/decorators/auth.decorator'
 import { Role } from 'prisma/generated/enums'
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator'
+import type { UserModel } from 'prisma/generated/models'
 
 @Controller('map-points')
 export class MapController {
@@ -45,8 +46,8 @@ export class MapController {
 
 	@Post()
 	@Auth()
-	create(@Body() dto: CreateMapPointDto, @CurrentUser('id') authorId: string) {
-		return this.mapService.create(dto, authorId)
+	create(@Body() dto: CreateMapPointDto, @CurrentUser() author: UserModel) {
+		return this.mapService.create(dto, author)
 	}
 
 	@Patch(':id/verify')
