@@ -21,7 +21,7 @@ services:
       - "4200:4200"
     environment:
       # ВАЖНО: вместо localhost пишем имя сервиса 'db'
-      DATABASE_URL: "postgresql://postgres:123456@db:5432/eco-neighbor?schema=public"
+      DATABASE_URL: "postgresql://postgres:123456@localhost:5432/eco-neighbor?schema=public"
       JWT_SECRET: "Yue1no6lBNYm4jhWGPi9rWgTxveX8R0KAR5T2CVD3DP"
       CLIENT_URL: "http://localhost:3000" # URL фронтенда (обычно остается localhost)
       MODE: "development"

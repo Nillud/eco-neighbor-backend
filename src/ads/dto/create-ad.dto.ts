@@ -6,19 +6,19 @@ export class CreateAdDto {
 		example: 'Отдам старый кактус',
 		description: 'Заголовок объявления'
 	})
-	title: string
+	title!: string
 
 	@ApiProperty({
 		example: 'otdam-stariy-kaktys-36sfs',
 		description: 'Slug объявления'
 	})
-	slug: string
+	slug!: string
 
 	@ApiProperty({
 		example: 'Здоровый, колючий, самовывоз',
 		description: 'Описание'
 	})
-	description: string
+	description!: string
 
 	@ApiProperty({
 		example: '+79999999999',
@@ -27,7 +27,7 @@ export class CreateAdDto {
 	phone?: string
 
 	@ApiProperty({ enum: AdType, example: 'GIVEAWAY' })
-	type: AdType
+	type!: AdType
 
 	imageUrl?: string
 }

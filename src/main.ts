@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { join } from 'node:path'
+import fs from 'fs'
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -32,16 +33,17 @@ async function bootstrap() {
 				description: 'Введите accessToken для работы запроса',
 				in: 'header'
 			},
-			'access-token' // Это имя должно совпадать с тем, что мы укажем в декораторе
+			'accessToken' // Это имя должно совпадать с тем, что мы укажем в декораторе
 		)
-		.addCookieAuth('accessToken', {
-			type: 'apiKey',
-			in: 'cookie',
-			name: 'accessToken'
-		})
+		// .addCookieAuth('accessToken', {
+		// 	type: 'apiKey',
+		// 	in: 'cookie',
+		// 	name: 'accessToken'
+		// })
 		.build()
 
 	const document = SwaggerModule.createDocument(app, config)
+	fs.writeFileSync('./swagger-spec.json', JSON.stringify(document))
 	SwaggerModule.setup('api/docs', app, document) // Путь будет /api/docs
 
 	app.useStaticAssets(join(__dirname, '..', 'uploads'), {

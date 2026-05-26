@@ -21,7 +21,7 @@ export class AdsController {
 	constructor(private readonly adsService: AdsService) {}
 
 	@Post()
-	@ApiBearerAuth('access-token')
+	@ApiBearerAuth('accessToken')
 	@Auth()
 	@ApiOperation({ summary: 'Создать объявление (требуется JWT)' })
 	create(@CurrentUser('id') userId: string, @Body() dto: CreateAdDto) {
@@ -29,6 +29,7 @@ export class AdsController {
 	}
 
 	@Get()
+	@ApiOperation({ summary: 'Получить список объявлений' })
 	findAll(@Query('type') type?: AdType) {
 		return this.adsService.getAll(type)
 	}
@@ -41,6 +42,7 @@ export class AdsController {
 
 	@Patch(':id')
 	@Auth()
+	@ApiOperation({ summary: 'Обновить объявление по id (только для автора)' })
 	update(
 		@CurrentUser('id') userId: string,
 		@Param('id') id: string,
@@ -51,12 +53,13 @@ export class AdsController {
 
 	@Patch(':id/close')
 	@Auth()
+	@ApiOperation({ summary: 'Закрыть объявление по id' })
 	close(@CurrentUser('id') userId: string, @Param('id') id: string) {
 		return this.adsService.closeAd(userId, id)
 	}
 
 	@Delete(':id')
-	@ApiBearerAuth('access-token')
+	@ApiBearerAuth('accessToken')
 	@Auth()
 	@ApiOperation({ summary: 'Удалить объявление (только ADMIN)' })
 	remove(@CurrentUser('id') userId: string, @Param('id') id: string) {
