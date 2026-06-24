@@ -89,7 +89,7 @@ export class MessagesService {
 					{ receiverId: userId },
 					{
 						event: {
-							OR: [{ participants: { some: { userId } } }, { authorId: userId }]
+							OR: [{ participants: { some: { userId } } }, { creatorId: userId }]
 						}
 					}
 				]
