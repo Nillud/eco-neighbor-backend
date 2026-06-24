@@ -117,6 +117,30 @@ export class AdsService {
 		})
 	}
 
+	async reopenAd(userId: string, adId: string) {
+		const ad = await this.prisma.ad.findUnique({ where: { id: adId } })
+
+		if (!ad) throw new NotFoundException('Объявление не найдено')
+		if (ad.authorId !== userId)
+			throw new ForbiddenException('Это не ваше объявление')
+		if (ad.status === Status.ACTIVE)
+			throw new BadRequestException('Объявление уже активно')
+
+		return await this.prisma.$transaction(async () => {
+			const updatedAd = await this.prisma.ad.update({
+				where: { id: adId },
+				data: { status: Status.ACTIVE }
+			})
+
+			await this.prisma.user.update({
+				where: { id: userId },
+				data: { rating: { decrement: 15 } }
+			})
+
+			return updatedAd
+		})
+	}
+
 	async remove(userId: string, adId: string) {
 		const ad = await this.prisma.ad.findUnique({ where: { id: adId } })
 		if (ad?.authorId !== userId) throw new ForbiddenException()

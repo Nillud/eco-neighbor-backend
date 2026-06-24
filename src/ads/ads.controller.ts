@@ -58,6 +58,13 @@ export class AdsController {
 		return this.adsService.closeAd(userId, id)
 	}
 
+	@Patch(':id/reopen')
+	@Auth()
+	@ApiOperation({ summary: 'Вернуть объявление в статус Активно по id' })
+	reopen(@CurrentUser('id') userId: string, @Param('id') id: string) {
+		return this.adsService.reopenAd(userId, id)
+	}
+
 	@Delete(':id')
 	@ApiBearerAuth('accessToken')
 	@Auth()
