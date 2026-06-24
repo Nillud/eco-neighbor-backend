@@ -105,7 +105,7 @@ export class MessagesService {
 
 		const userEvents = await this.prisma.event.findMany({
 			where: {
-				OR: [{ participants: { some: { userId } } }, { authorId: userId }]
+				OR: [{ participants: { some: { userId } } }, { creatorId: userId }]
 			},
 			select: { id: true, title: true, slug: true, imageUrl: true }
 		})
@@ -173,7 +173,7 @@ export class MessagesService {
 	async getOrCreateEventChat(userId: string, eventId: string) {
 		const event = await this.prisma.event.findUnique({
 			where: { id: eventId },
-			select: { authorId: true, title: true, id: true }
+			select: { creatorId: true, title: true, id: true }
 		})
 
 		if (!event) throw new NotFoundException('Мероприятие не найдено')
@@ -182,7 +182,7 @@ export class MessagesService {
 			where: { eventId, userId }
 		})
 
-		if (!isParticipant && event.authorId !== userId) {
+		if (!isParticipant && event.creatorId !== userId) {
 			throw new ForbiddenException(
 				'Вы не являетесь участником или организатором этого события'
 			)
