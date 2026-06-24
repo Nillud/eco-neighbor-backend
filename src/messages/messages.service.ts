@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import {
+	ForbiddenException,
+	Injectable,
+	NotFoundException
+} from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { NotificationsGateway } from 'src/notifications/notifications.gateway'
 
@@ -27,7 +31,6 @@ export class MessagesService {
 			finalReceiverId = ad?.authorId
 		}
 
-		// Используем 'as any' для data, чтобы заигнорить ошибку отсутствия receiverId
 		const message = await this.prisma.message.create({
 			data: {
 				text: dto.text,
@@ -84,10 +87,13 @@ export class MessagesService {
 				OR: [
 					{ senderId: userId },
 					{ receiverId: userId },
-					{ event: { participants: { some: { userId } } } }
+					{
+						event: {
+							OR: [{ participants: { some: { userId } } }, { authorId: userId }]
+						}
+					}
 				]
 			} as any,
-			// Приводим весь объект include к any, чтобы TS не проверял его свойства
 			include: {
 				sender: { select: { id: true, name: true, avatarUrl: true } },
 				receiver: { select: { id: true, name: true, avatarUrl: true } },
@@ -98,7 +104,9 @@ export class MessagesService {
 		})
 
 		const userEvents = await this.prisma.event.findMany({
-			where: { participants: { some: { userId } } },
+			where: {
+				OR: [{ participants: { some: { userId } } }, { authorId: userId }]
+			},
 			select: { id: true, title: true, slug: true, imageUrl: true }
 		})
 
@@ -112,15 +120,14 @@ export class MessagesService {
 				date: new Date(),
 				type: 'EVENT',
 				title: event.title,
-				// Чтобы фронт не падал, создаем заглушку или передаем данные ивента
 				partner: {
 					name: event.title,
-					avatarUrl: event.imageUrl || null // Добавь imageUrl в select выше
+					avatarUrl: event.imageUrl || null
 				},
 				metadata: {
 					eventId: event.id,
 					eventSlug: event.slug,
-					eventImage: event.imageUrl, // Передаем картинку ивента
+					eventImage: event.imageUrl,
 					adId: null,
 					adSlug: null
 				}
@@ -154,7 +161,7 @@ export class MessagesService {
 						eventId: msg.eventId,
 						adSlug: msg.ad?.slug,
 						eventSlug: msg.event?.slug,
-						eventImage: msg.event?.imageUrl // Важно для картинки
+						eventImage: msg.event?.imageUrl
 					}
 				})
 			}
@@ -164,22 +171,24 @@ export class MessagesService {
 	}
 
 	async getOrCreateEventChat(userId: string, eventId: string) {
-		// Проверяем, является ли пользователь участником
+		const event = await this.prisma.event.findUnique({
+			where: { id: eventId },
+			select: { authorId: true, title: true, id: true }
+		})
+
+		if (!event) throw new NotFoundException('Мероприятие не найдено')
+
 		const isParticipant = await this.prisma.eventParticipant.findFirst({
 			where: { eventId, userId }
 		})
 
-		if (!isParticipant)
-			throw new ForbiddenException('Вы не участник этого события')
+		if (!isParticipant && event.authorId !== userId) {
+			throw new ForbiddenException(
+				'Вы не являетесь участником или организатором этого события'
+			)
+		}
 
-		// Получаем историю (она может быть пустой)
 		const history = await this.getHistory(userId, { eventId })
-
-		// Возвращаем данные для фронтенда, чтобы он знал, какой заголовок рисовать
-		const event = await this.prisma.event.findUnique({
-			where: { id: eventId },
-			select: { title: true, id: true }
-		})
 
 		return {
 			event,

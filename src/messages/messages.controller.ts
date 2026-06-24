@@ -14,7 +14,7 @@ export class MessagesController {
 	async getChatList(@CurrentUser('id') userId: string) {
 		return this.messagesService.getChatList(userId)
 	}
-	// Получение истории: GET /messages?adId=... или GET /messages?eventId=...
+
 	@Get()
 	@Auth()
 	async getChatHistory(
@@ -30,7 +30,6 @@ export class MessagesController {
 		})
 	}
 
-	// Отправка через POST (удобно для вложений или простого текста)
 	@Post()
 	@Auth()
 	async sendMessage(
