@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { NotificationsGateway } from 'src/notifications/notifications.gateway'
+import { Prisma } from 'prisma/generated/client'
 
 @Injectable()
 export class MessagesService {
@@ -89,19 +91,31 @@ export class MessagesService {
 					{ receiverId: userId },
 					{
 						event: {
-							OR: [{ participants: { some: { userId } } }, { creatorId: userId }]
+							OR: [
+								{ participants: { some: { userId } } },
+								{ creatorId: userId }
+							]
 						}
 					}
 				]
-			} as any,
+			},
 			include: {
 				sender: { select: { id: true, name: true, avatarUrl: true } },
 				receiver: { select: { id: true, name: true, avatarUrl: true } },
 				ad: { select: { id: true, title: true, slug: true } },
-				event: { select: { id: true, title: true, slug: true } }
-			} as any,
+				event: { select: { id: true, title: true, slug: true, imageUrl: true } }
+			},
 			orderBy: { createdAt: 'desc' }
 		})
+
+		type MessageWithRelations = Prisma.MessageGetPayload<{
+			include: {
+				sender: { select: { id: true; name: true; avatarUrl: true } }
+				receiver: { select: { id: true; name: true; avatarUrl: true } }
+				ad: { select: { id: true; title: true; slug: true } }
+				event: { select: { id: true; title: true; slug: true; imageUrl: true } }
+			}
+		}>
 
 		const userEvents = await this.prisma.event.findMany({
 			where: {
@@ -134,7 +148,7 @@ export class MessagesService {
 			})
 		})
 
-		messages.forEach((msg: any) => {
+		messages.forEach((msg: MessageWithRelations) => {
 			let key = ''
 			if (msg.eventId) {
 				key = `event_${msg.eventId}`
@@ -144,26 +158,51 @@ export class MessagesService {
 				key = `ad_${msg.adId}_${partnerId}`
 			}
 
-			if (!chats.has(key)) {
-				chats.set(key, {
-					id: key,
-					lastMessage: msg.text,
-					date: msg.createdAt,
-					type: msg.eventId ? 'EVENT' : 'AD',
-					title: msg.event?.title || msg.ad?.title || 'Чат',
-					partner: msg.eventId
-						? { name: msg.event?.title, avatarUrl: msg.event?.imageUrl }
-						: msg.senderId === userId
-							? msg.receiver
-							: msg.sender,
-					metadata: {
-						adId: msg.adId,
-						eventId: msg.eventId,
-						adSlug: msg.ad?.slug,
-						eventSlug: msg.event?.slug,
-						eventImage: msg.event?.imageUrl
+			if (msg.eventId) {
+				const existingEventChat = chats.get(key)
+				if (existingEventChat) {
+					if (
+						existingEventChat.lastMessage === 'Сообщений пока нет' ||
+						new Date(msg.createdAt) > new Date(existingEventChat.date)
+					) {
+						existingEventChat.lastMessage = msg.text
+						existingEventChat.date = msg.createdAt
 					}
-				})
+				} else {
+					chats.set(key, {
+						id: key,
+						lastMessage: msg.text,
+						date: msg.createdAt,
+						type: 'EVENT',
+						title: msg.event?.title || 'Чат мероприятия',
+						partner: { name: msg.event?.title, avatarUrl: msg.event?.imageUrl },
+						metadata: {
+							adId: null,
+							eventId: msg.eventId,
+							adSlug: null,
+							eventSlug: msg.event?.slug,
+							eventImage: msg.event?.imageUrl
+						}
+					})
+				}
+			} else if (msg.adId) {
+				if (!chats.has(key)) {
+					chats.set(key, {
+						id: key,
+						lastMessage: msg.text,
+						date: msg.createdAt,
+						type: 'AD',
+						title: msg.ad?.title || 'Чат',
+						partner: msg.senderId === userId ? msg.receiver : msg.sender,
+						metadata: {
+							adId: msg.adId,
+							eventId: null,
+							adSlug: msg.ad?.slug,
+							eventSlug: null,
+							eventImage: null
+						}
+					})
+				}
 			}
 		})
 
