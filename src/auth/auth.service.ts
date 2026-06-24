@@ -1,7 +1,8 @@
 import {
 	BadRequestException,
 	Injectable,
-	NotFoundException
+	NotFoundException,
+	UnauthorizedException
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
@@ -128,11 +129,14 @@ export class AuthService {
 		const email = input.email
 
 		const user = await this.usersService.findByEmail(email)
-		if (!user) throw new NotFoundException()
+		if (!user) {
+			throw new UnauthorizedException('Неверный логин или пароль')
+		}
 
 		const isPasswordValid = await verify(user.password, input.password)
-		if (!isPasswordValid)
-			throw new NotFoundException(`Invalid email or password`)
+		if (!isPasswordValid) {
+			throw new UnauthorizedException('Неверный логин или пароль')
+		}
 
 		return user
 	}
